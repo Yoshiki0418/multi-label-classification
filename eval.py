@@ -51,7 +51,7 @@ def run(args: DictConfig):
     # ------------------ 
     for images in tqdm(test_loader, desc="Test"):
         outputs = model(images.to(args.device))
-        y = nn.Sigmoid(outputs)
+        y = torch.sigmoid(outputs)
         print(y)
         
 
