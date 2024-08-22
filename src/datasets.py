@@ -66,3 +66,18 @@ class ImageDataset(torch.utils.data.Dataset):
 #     X, y = data[0], data[1]
 #     print(X.shape)
 #     print(y)
+
+class ImageDataset_test(torch.utils.data.Dataset):
+    def __init__(self, file_paths, transform=None):
+        self.file_paths = file_paths
+        self.transform = transform
+        self.num_classes = 3
+
+    def __len__(self):
+        return len(self.file_paths)
+
+    def __getitem__(self, idx):
+        img_path = self.file_paths[idx]
+        image = Image.open(img_path).convert("RGB")
+
+        return image

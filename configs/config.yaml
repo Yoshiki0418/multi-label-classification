@@ -10,4 +10,4 @@ use_wandb: False
 
 
 # Evaluation
-model_path: 
+model_path: /content/drive/MyDrive/Deep_Learning/multi-label-classification/outputs/2024-08-22/07-54-26/model_best.pt
