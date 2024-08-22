@@ -30,7 +30,7 @@ def run(args: DictConfig):
     #------------------------------
     # ディレクトリ構造に基づいてデータを準備する
     data_dir = "./multi-label-datasets"
-    categories = ["cat", "dog", "dog_cat"]
+    categories = ["cat", "dog", "dog_cat", "original"]
 
     # データを格納するリスト
     file_paths = []
@@ -40,7 +40,7 @@ def run(args: DictConfig):
     for category in categories:
         category_dir = os.path.join(data_dir, category)
         for file_name in os.listdir(category_dir):
-            if file_name.endswith(".jpeg"):
+            if file_name.endswith(".jpeg") or file_name.endswith(".png"):
                 file_paths.append(os.path.join(category_dir, file_name))
                 labels.append(category)
 

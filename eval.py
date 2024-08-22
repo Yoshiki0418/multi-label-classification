@@ -28,7 +28,7 @@ def run(args: DictConfig):
     # ------------------
     #    Dataloader
     # ------------------  
-    image_path = "multi-label-datasets/dog/1.jpeg"
+    image_path = "multi-label-datasets/dog_cat/30.jpeg"
 
     transform = transforms.Compose([
         transforms.Resize((128, 128)),  # 画像のサイズを調整 
@@ -49,13 +49,28 @@ def run(args: DictConfig):
     # ------------------
     #  Start evaluation
     # ------------------ 
+    # クラス名をリストで定義
+    classes = ['犬', '猫']
+
     for images in tqdm(test_loader, desc="Test"):
+        
         outputs = model(images.to(args.device))
+        print("")
         y = torch.sigmoid(outputs)
         print(y)
         
+        # yの値が0.5以上かどうかをチェックし、対応するクラス名を表示
+        predicted_labels = [classes[idx] for idx, value in enumerate(y[0]) if value >= 0.65]
+        
+        # 結果の表示
+        if not predicted_labels:
+            print("判定結果: どのクラスも検出されませんでした。")
+        else:
+            print("判定結果:", "と".join(predicted_labels), "が検出されました。")
+            
+            
 
-    
+      
 
 
 if __name__ == "__main__":
