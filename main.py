@@ -75,7 +75,7 @@ def run(args: DictConfig):
     #      Start traning
     #----------------------------
     # F1 Scoreの設定
-    f1_score = F1Score(num_classes=train_set.num_classes, average='macro', mdmc_average='samplewise').to(args.device)
+    f1_score = F1Score(num_classes=train_set.num_classes, average='macro', mdmc_average='samplewise', task='multilabel').to(args.device)
 
     # 損失関数の定義
     criterion = nn.BCEWithLogitsLoss()
