@@ -106,7 +106,8 @@ def run(args: DictConfig):
             with torch.no_grad():
                 y_pred = model(X)
             
-            val_loss.append(F.cross_entropy(y_pred, y).item())
+            loss = criterion(y, y_pred)
+            val_loss.append(loss.item())
             val_acc.append(accuracy(y_pred, y).item())
 
         print(f"Epoch {epoch+1}/{args.epochs} | train loss: {np.mean(train_loss):.3f} | train acc: {np.mean(train_acc):.3f} | val loss: {np.mean(val_loss):.3f} | val acc: {np.mean(val_acc):.3f}")
