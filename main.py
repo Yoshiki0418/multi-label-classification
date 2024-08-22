@@ -12,9 +12,9 @@ from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from torchvision import transforms
 
-from .src.utils import set_seed
-from .src.datasets import ImageDataset
-from .src.model import VGG16
+from src.utils import set_seed
+from src.datasets import ImageDataset
+from src.model import VGG16
 
 @hydra.main(version_base=None, config_path="configs", config_name="config")
 def run(args: DictConfig):
