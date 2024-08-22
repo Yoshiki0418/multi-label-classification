@@ -75,10 +75,10 @@ def run(args: DictConfig):
     #      Start traning
     #----------------------------
     max_val_acc = 0
-
+    
     def pred_acc(original, predicted):
-        # ref: https://pytorch.org/docs/stable/torch.html#module-torch
-        return torch.round(predicted).eq(original).sum().numpy()/len(original)
+        # .cpu()を呼び出してから.numpy()を使用
+        return torch.round(predicted).eq(original).sum().cpu().numpy() / len(original)
 
     # 損失関数の定義
     criterion = nn.BCEWithLogitsLoss()
