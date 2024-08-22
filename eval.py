@@ -31,7 +31,7 @@ def run(args: DictConfig):
     image_path = "multi-label-datasets/dog/1.jpeg"
 
     transform = transforms.Compose([
-        transforms.Resize((args.model.input_size, args.model.input_size)),  # 画像のサイズを調整 
+        transforms.Resize((128, 128)),  # 画像のサイズを調整 
         transforms.ToTensor(),  # 画像をテンソルに変換
     ])
 
