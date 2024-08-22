@@ -8,7 +8,7 @@ class ImageDataset(torch.utils.data.Dataset):
     def __init__(self, file_paths, transform=None):
         self.file_paths = file_paths
         self.transform = transform
-        self.num_classes = 2
+        self.num_classes = 3
 
     def __len__(self):
         return len(self.file_paths)
