@@ -1,0 +1,16 @@
+batch_size: 128
+epochs: 20
+lr: 0.001
+
+device: cuda:0
+num_workers: 4
+seed: 1234
+use_wandb: False
+
+data_dir: data
+
+# Evaluation
+model_path: 
+
+annotations_file: data/train_image_paths.txt
+img_dir: images
