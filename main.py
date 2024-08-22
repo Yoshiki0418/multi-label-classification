@@ -74,8 +74,11 @@ def run(args: DictConfig):
     #----------------------------
     #      Start traning
     #----------------------------
-    # F1 Scoreの設定
-    f1_score = F1Score(num_classes=train_set.num_classes, average='macro', mdmc_average='samplewise', task='multilabel').to(args.device)
+    max_val_acc = 0
+
+    def pred_acc(original, predicted):
+        # ref: https://pytorch.org/docs/stable/torch.html#module-torch
+        return torch.round(predicted).eq(original).sum().numpy()/len(original)
 
     # 損失関数の定義
     criterion = nn.BCEWithLogitsLoss()
@@ -98,13 +101,8 @@ def run(args: DictConfig):
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)  # 勾配クリッピング
             optimizer.step()
 
-            # F1 Scoreの更新
-            y_pred_sig = torch.sigmoid(y_pred) > 0.5
-            f1_score.update(y_pred_sig, y.int())
-        # F1 Scoreの計算
-        train_f1 = f1_score.compute()
-        f1_score.reset()
-        print(f"Epoch {epoch+1}/{args.epochs} | train F1: {train_f1:.3f}")
+            acc = pred_acc(y, y_pred)
+            train_acc.append(acc.item())
 
         model.eval()
         for X, y in tqdm(val_loader, desc="Validation"):
