@@ -49,7 +49,7 @@ def run(args: DictConfig):
     # ------------------
     #  Start evaluation
     # ------------------ 
-    for images, paths in tqdm(test_loader, desc="Test"):
+    for images in tqdm(test_loader, desc="Test"):
         outputs = model(images.to(args.device))
         y = nn.Sigmoid(outputs)
         print(y)
