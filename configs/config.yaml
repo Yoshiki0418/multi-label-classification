@@ -1,6 +1,6 @@
 batch_size: 4
 epochs: 20
-lr: 0.001
+lr: 0.0000001
 
 device: cuda:0
 num_workers: 2
