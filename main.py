@@ -76,9 +76,20 @@ def run(args: DictConfig):
     #----------------------------
     max_val_acc = 0
     
-    def pred_acc(original, predicted):
-        # .cpu()を呼び出してから.numpy()を使用
-        return torch.round(predicted).eq(original).sum().cpu().numpy() / len(original)
+    def batch_accuracy(original, predicted, threshold=0.5):
+        # 予測値を四捨五入する（閾値を設定）
+        predicted_rounded = (predicted >= threshold).float()
+        
+        # すべてのラベルが一致するかどうかをチェック
+        correct_samples = (predicted_rounded == original).all(dim=1).float()
+        
+        # 正確に予測されたサンプルの数をカウント
+        correct_count = correct_samples.sum()
+        
+        # バッチサイズで割って精度を計算
+        accuracy = correct_count / len(original)
+    
+        return accuracy.item()
 
     # 損失関数の定義
     criterion = nn.BCEWithLogitsLoss()
@@ -101,7 +112,7 @@ def run(args: DictConfig):
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)  # 勾配クリッピング
             optimizer.step()
 
-            acc = pred_acc(y, y_pred)
+            acc = batch_accuracy(y, y_pred)
             train_acc.append(acc.item())
 
         model.eval()
