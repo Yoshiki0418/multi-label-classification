@@ -69,15 +69,19 @@ class ImageDataset(torch.utils.data.Dataset):
 
 class ImageDataset_test(torch.utils.data.Dataset):
     def __init__(self, file_paths, transform=None):
+        if isinstance(file_paths, str):
+            file_paths = [file_paths]  
         self.file_paths = file_paths
         self.transform = transform
-        self.num_classes = 3
 
     def __len__(self):
-        return len(self.file_paths)
+        return len(self.file_paths) 
 
     def __getitem__(self, idx):
         img_path = self.file_paths[idx]
         image = Image.open(img_path).convert("RGB")
+        
+        if self.transform:
+            image = self.transform(image) 
 
         return image
